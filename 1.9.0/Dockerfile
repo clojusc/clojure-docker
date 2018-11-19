@@ -1,0 +1,14 @@
+FROM openjdk:11.0.1-jdk-slim-sid
+
+COPY linux-install-1.9.0.397.sh /
+RUN apt-get update -y && \	
+    apt-get install -y curl && \
+    mkdir /clojure && \
+    mv /linux-install-1.9.0.397.sh /clojure/linux-install-1.9.0.397.sh && \
+    chmod +x /clojure/linux-install-1.9.0.397.sh && \
+    /clojure/linux-install-1.9.0.397.sh && \
+    apt-get remove -y curl && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    clojure --eval '(println "Finished downloading core deps.")'
+CMD ["clojure"]
