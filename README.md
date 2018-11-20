@@ -19,3 +19,10 @@ clj-tools with `lein`:
 * `make clj18-lein` creates tag `clojusc/clojure-1.8.0-lein-jdk-11.0.1`
 * `make clj19-lein` creates tag `clojusc/clojure-1.9.0-lein-jdk-11.0.1`
 * `make clj110-lein` creates tag `clojusc/clojure-1.10.0-beta6-lein-jdk-11.0.1`
+
+clj-tools with `boot`:
+* `make clj16-boot` creates tag `clojusc/clojure-1.6.0-boot-jdk-11.0.1`
+* `make clj17-boot` creates tag `clojusc/clojure-1.7.0-boot-jdk-11.0.1`
+* `make clj18-boot` creates tag `clojusc/clojure-1.8.0-boot-jdk-11.0.1`
+* `make clj19-boot` creates tag `clojusc/clojure-1.9.0-boot-jdk-11.0.1`
+* `make clj110-boot` creates tag `clojusc/clojure-1.10.0-beta6-boot-jdk-11.0.1`

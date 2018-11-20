@@ -2,6 +2,8 @@ ENV LEIN_VERSION=2.8.1
 ENV LEIN_INSTALL=/usr/local/bin/
 ENV LEIN_CHECKSUM=019faa5f91a463bf9742c3634ee32fb3db8c47f0
 ENV LEIN_GPG_KEY=2B72BF956E23DE5E830D50F6002AF007D1A7CC18
+ENV PATH=$PATH:$LEIN_INSTALL
+ENV LEIN_ROOT 1
 
 RUN apt-get update -y && \
     apt-get install -y wget gnupg && \
@@ -18,10 +20,9 @@ RUN apt-get update -y && \
     rm leiningen-$LEIN_VERSION-standalone.zip.asc && \
     mkdir -p /usr/share/java && \
     mv leiningen-$LEIN_VERSION-standalone.zip /usr/share/java/leiningen-$LEIN_VERSION-standalone.jar && \
+    lein help && \
     apt-get remove -y wget gnupg && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* 
+    rm -rf /var/lib/apt/lists/*
 
-ENV PATH=$PATH:$LEIN_INSTALL
-ENV LEIN_ROOT 1
 
