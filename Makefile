@@ -3,7 +3,7 @@ V16=1.6.0
 V17=1.7.0
 V18=1.8.0
 V19=1.9.0
-V110=1.10.0-RC2
+V110=1.10.0-RC3
 BASE_CLJ_VERS=${V19}
 ORG=clojusc
 BASE_JDK_IMAGE=openjdk:$(JDK_VERS)-jdk-slim-sid
@@ -18,13 +18,12 @@ all:
 	$(MAKE) clj18-all
 	$(MAKE) clj110-all
 
-publish-all: all
-	for CLOJURE_VERSION in $(V16) $(V17) $(V18) $(V19) $(V110); do \
-	CLOJURE_VERSION_LOWER=`echo $$CLOJURE_VERSION | tr A-Z a-z`; \
-	docker push $(ORG)/clojure-$$CLOJURE_VERSION_LOWER-jdk-$(JDK_VERS); \
+publish-all: all clj19-publish clj16-publish clj17-publish clj18-publish clj110-publish
+
+publish:
+	docker push $(ORG)/clojure-$(CLOJURE_VERSION_LOWER)-jdk-$(JDK_VERS); \
 	for BUILD_TOOL in lein boot; do \
-	docker push $(ORG)/clojure-$$CLOJURE_VERSION_LOWER-$$BUILD_TOOL-jdk-$(JDK_VERS); \
-	done; \
+	docker push $(ORG)/clojure-$(CLOJURE_VERSION_LOWER)-$$BUILD_TOOL-jdk-$(JDK_VERS); \
 	done
 
 clj:
@@ -169,6 +168,28 @@ clj110-boot: CLOJURE_VERSION=$(V110)
 clj110-boot: CLOJURE_VERSION_LOWER=$(shell echo $(CLOJURE_VERSION) | tr A-Z a-z)
 clj110-boot: BUILD_TOOL=boot
 clj110-boot: clj110
+
+## Push to Dockerhub
+
+clj19-publish: CLOJURE_VERSION=$(V19)
+clj19-publish: CLOJURE_VERSION_LOWER=$(shell echo $(CLOJURE_VERSION) | tr A-Z a-z)
+clj19-publish: publish
+
+clj16-publish: CLOJURE_VERSION=$(V16)
+clj16-publish: CLOJURE_VERSION_LOWER=$(shell echo $(CLOJURE_VERSION) | tr A-Z a-z)
+clj16-publish: publish
+
+clj17-publish: CLOJURE_VERSION=$(V17)
+clj17-publish: CLOJURE_VERSION_LOWER=$(shell echo $(CLOJURE_VERSION) | tr A-Z a-z)
+clj17-publish: publish
+
+clj18-publish: CLOJURE_VERSION=$(V18)
+clj18-publish: CLOJURE_VERSION_LOWER=$(shell echo $(CLOJURE_VERSION) | tr A-Z a-z)
+clj18-publish: publish
+
+clj110-publish: CLOJURE_VERSION=$(V110)
+clj110-publish: CLOJURE_VERSION_LOWER=$(shell echo $(CLOJURE_VERSION) | tr A-Z a-z)
+clj110-publish: publish
 
 .PHONY: setup setup-deps setup-build-tool teardown \
 		clj clj16 clj17 clj18 clj19 clj110 \
